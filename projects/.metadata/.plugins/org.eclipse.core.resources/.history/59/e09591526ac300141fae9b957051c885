@@ -1,0 +1,47 @@
+package stubs;
+import java.io.IOException;
+import org.apache.hadoop.io.FloatWritable;
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Mapper;
+
+public class NYSEMapper extends Mapper<LongWritable, Text, Text, FloatWritable> {
+	int failedRecords;
+	public static enum Counters
+	{
+		FAILED_RECORDS
+	}
+	Text text1 = new Text();
+	Text text2 = new Text();
+	FloatWritable floatWritable = new FloatWritable();
+
+  @Override
+  public void map(LongWritable key, Text value, Context context)
+      throws IOException, InterruptedException {
+	  try
+	  {
+	  String line = value.toString(); 
+	  String divisions[]=line.split(",");
+	  text1.set(divisions[1]+","+divisions[2]);
+	  float high=Float.parseFloat(divisions[4]);
+	  float low=Float.parseFloat(divisions[5]);
+	  float percent=(high-low)*100/low;
+	  floatWritable.set(percent);
+	  context.write(text1, floatWritable); 
+	  }
+	  catch(Exception t)
+	  {
+		  processError(context, t, value);
+	  }
+  }
+	  public void processError(Context c, Throwable t, Text v)
+	  { 
+	 System.err.println("Caught exception processing  value[" + v + "]");
+	 c.getCounter(Counters.FAILED_RECORDS).increment(1); 
+	 c.setStatus("Records with failures = " +(++failedRecords));
+		  
+		  
+  }
+
+  }
+

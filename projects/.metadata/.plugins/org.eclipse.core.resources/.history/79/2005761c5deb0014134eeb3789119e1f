@@ -1,0 +1,25 @@
+package stubs;
+import java.io.IOException;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Reducer;
+
+public class GenderPartitionReducer extends Reducer<Text, Text, IntWritable, Text> {
+  IntWritable intWritable=new IntWritable();
+  Text text=new Text();
+  
+  @Override
+  public void reduce(Text key, Iterable<Text> values, Context context)
+      throws IOException, InterruptedException {
+    for(Text value:values)
+    {
+	String str= value.toString();
+	String data[]=str.split("\t");
+	int newKey= Integer.parseInt(data[0]);
+	intWritable.set(newKey);
+	text.set(data[1]+"\t"+data[2]+"\t"+key.toString());
+	context.write(intWritable,text);
+    }
+    
+}
+}

@@ -1,0 +1,32 @@
+package stubs;
+import java.io.IOException;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.hadoop.mapreduce.lib.input.FileSplit;
+
+public class BayesianRatingMapperGender extends Mapper<LongWritable, Text, IntWritable, Text> {
+	
+	IntWritable intWritable = new IntWritable();
+	Text text=new Text();
+
+  @Override
+  public void map(LongWritable key, Text value, Context context)
+      throws IOException, InterruptedException {
+	  FileSplit fileSplit = (FileSplit)context.getInputSplit();
+	  Path filePath = fileSplit.getPath();
+	  String fileName = filePath.getName();
+	  String line = value.toString(); 
+	  String data[]=line.split("\\t");  
+	  intWritable.set(Integer.parseInt(data[0]));
+      text.set(data[1].toString()+"\t"+data[2]+"\t"+data[3]+"\t"+data[4]+"\t"+fileName);	  
+	  context.write(intWritable, text); 
+	  }
+	 
+	  }
+ 
+
+  
+

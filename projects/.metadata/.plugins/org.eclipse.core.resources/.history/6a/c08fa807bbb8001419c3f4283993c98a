@@ -1,0 +1,10 @@
+package stubs;
+
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+
+public class ExampleWord {
+	String exWord = "";
+	IntWritable intWritable = new IntWritable();
+
+}

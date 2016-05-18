@@ -1,0 +1,41 @@
+package stubs;
+import java.io.IOException;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.MapWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Mapper;
+
+public class MaxMapper2 extends Mapper<LongWritable, Text, Text, ExampleWord> {
+	
+	Text text1 = new Text();
+	//IntWritable intWritable = new IntWritable();
+	ExampleWord abc = new ExampleWord(); 
+
+  @Override
+  public void map(LongWritable key, Text value, Context context)
+      throws IOException, InterruptedException {
+	  String line = value.toString(); 
+	  for (String word : line.split("\\W+")){ 
+		  
+		  if (word.length() > 0) {
+			  char ch=((word.toLowerCase()).charAt(0));
+			  if(ch>='a' && ch<='z')
+			  {
+			  text1.set((word.substring(0,1)).toLowerCase());
+			  abc.exWord = word;
+			  abc.intWritable.set(word.length());
+			  //intWritable.set(word.length()); 
+			  //text2.set(word.toLowerCase());
+			  //mapWritable.put(i1, text2);
+			  //mapWritable.put(i2, intWritable);
+			  
+			  c
+			  
+			  }
+			  } 
+		  }
+  }
+
+  }
+

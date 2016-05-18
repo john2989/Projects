@@ -1,0 +1,49 @@
+package stubs;
+import java.io.IOException;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Mapper;
+import org.omg.CORBA.portable.ValueOutputStream;
+
+public class NYSEMapper extends Mapper<LongWritable, Text, Text, Text> {
+	
+	Text text1 = new Text();
+	Text text2 = new Text();
+	IntWritable intWritable = new IntWritable();
+
+  @Override
+  public void map(LongWritable key, Text value, Context context)
+      throws IOException, InterruptedException {
+	  String line = value.toString(); 
+	  String divisions[]=line.split(",");
+	  String str="";
+	  text1.set(divisions[1]+divisions[2]);
+	  int i=divisions.length;
+	  float max=0;
+	  float min=0;
+	  for(int j=3;j<i;j++)
+	  {
+		  if(Float.parseFloat(divisions[j+1])>Float.parseFloat(divisions[j]))
+				  {
+			       max=Float.parseFloat(divisions[j+1]);
+				  }
+		 // str=str+divisions[i];
+	  }
+	  for(int j=3;j<i;j++)
+	  {
+		  if(Float.parseFloat(divisions[j+1])<Float.parseFloat(divisions[j]))
+				  {
+			       min=Float.parseFloat(divisions[j+1]);
+				  }
+		 // str=str+divisions[i];
+	  }
+	 //text2.set(str);
+	str=valueOf(min);
+	 context.write(text1, text2); 
+			  
+		  
+  }
+
+  }
+

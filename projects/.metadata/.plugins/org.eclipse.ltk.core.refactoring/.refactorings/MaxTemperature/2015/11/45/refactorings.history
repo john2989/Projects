@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring accessors="true" comment="Delete 6 elements from project &apos;MaxTemperature&apos;&#x0A;- Original project: &apos;MaxTemperature&apos;&#x0A;- Original elements:&#x0A;     Bank.java&#x0A;     Bank2.java&#x0A;     BankMapper.java&#x0A;     BankMapper2.java&#x0A;     BankReducer.java&#x0A;     BankReducer2.java" description="Delete elements" element1="/src&lt;{BankMapper2.java" element2="/src&lt;{BankMapper.java" element3="/src&lt;{BankReducer.java" element4="/src&lt;{Bank2.java" element5="/src&lt;{BankReducer2.java" element6="/src&lt;{Bank.java" elements="6" flags="589830" id="org.eclipse.jdt.ui.delete" resources="0" stamp="1446479864869" subPackages="false" version="1.0"/>
+</session>

@@ -1,0 +1,25 @@
+package stubs;
+import java.io.IOException;
+import org.apache.hadoop.io.DoubleWritable;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Reducer;
+
+public class BayesianRatingReducer extends Reducer<IntWritable, Text, IntWritable, Text> {
+  DoubleWritable doubleWritable=new DoubleWritable();
+  Text text=new Text();
+  
+  public void reduce (IntWritable key, Text value, Context context)
+			throws IOException, InterruptedException {
+	
+    double bayesianRating= 0;
+	String data[]= value.toString().split("\\t");
+    int votes=Integer.parseInt(data[3]);
+    double movieAvg=Double.parseDouble(data[2]);
+    bayesianRating= ((votes/(votes+10))*movieAvg)+((10/(votes+10))*3.24);
+    doubleWritable.set(bayesianRating); 
+    text.set(doubleWritable.toString());
+    context.write(key, text);
+
+  }
+}

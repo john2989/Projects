@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="com.sun.jersey.core.impl.provider.entity.XMLJAXBElementProvider.Text"/>
+<fullyQualifiedTypeName name="org.apache.hadoop.mapreduce.Counters"/>
+<fullyQualifiedTypeName name="org.apache.hadoop.filecache.DistributedCache"/>
+<fullyQualifiedTypeName name="java.io.IOException"/>
+<fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="org.apache.hadoop.fs.FileSystem"/>
+<fullyQualifiedTypeName name="org.apache.hadoop.io.Text"/>
+<fullyQualifiedTypeName name="org.apache.hadoop.io.IntWritable"/>
+<fullyQualifiedTypeName name="org.joda.time.Chronology"/>
+<fullyQualifiedTypeName name="org.joda.time.DateMidnight"/>
+<fullyQualifiedTypeName name="org.joda.time.DateTime"/>
+<fullyQualifiedTypeName name="org.joda.time.DateTimeConstants"/>
+<fullyQualifiedTypeName name="org.joda.time.format.DateTimeFormat"/>
+<fullyQualifiedTypeName name="org.joda.time.format.DateTimeFormatter"/>
+<fullyQualifiedTypeName name="org.apache.hadoop.conf.Configuration"/>
+<fullyQualifiedTypeName name="javax.tools.Tool"/>
+<fullyQualifiedTypeName name="org.apache.hadoop.conf.Configured"/>
+<fullyQualifiedTypeName name="org.apache.hadoop.util.ToolRunner"/>
+</qualifiedTypeNameHistroy>

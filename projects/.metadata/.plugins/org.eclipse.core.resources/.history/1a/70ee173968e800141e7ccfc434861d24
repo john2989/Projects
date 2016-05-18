@@ -1,0 +1,36 @@
+package edu.stthomas.gps.tfidf;
+
+import java.io.IOException;
+import org.apache.hadoop.io.FloatWritable;
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Mapper;
+
+
+public class TfidfMapper extends Mapper<WordFilenameWritable, FloatWritable, FloatWritable, WordFilenameWritable> {
+  FloatWritable floatWritable= new FloatWritable();
+  WordFilenameWritable wordfile= new WordFilenameWritable();
+  @Override
+  public void map(LongWritable key, Text value, Context context)
+      throws IOException, InterruptedException {
+	  try
+	  {
+	  String line=value.toString();
+	  String data[]=line.split("\\t+");
+	  String wordfiledata[]= data[0].split(",");
+	  Float f=Float.parseFloat(data[1]);
+	  floatWritable.set(f);
+	  wordfile.set(wordfiledata[0], wordfiledata[1]);
+	  context.write(floatWritable, wordfile);
+	  }
+	  catch(NumberFormatException e)
+	  {
+		  System.out.println("Exception" + e);
+	  }
+	  catch(ArrayIndexOutOfBoundsException e)
+	  {
+		  System.out.println("Exception" + e);
+	  }
+      
+  }
+}

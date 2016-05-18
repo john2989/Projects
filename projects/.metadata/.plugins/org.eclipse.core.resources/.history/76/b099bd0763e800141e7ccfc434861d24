@@ -1,0 +1,16 @@
+package edu.stthomas.gps.tfidf;
+
+import java.io.IOException;
+import org.apache.hadoop.io.FloatWritable;
+import org.apache.hadoop.mapreduce.Reducer;
+
+public class TfidfReducer extends Reducer<WordFilenameWritable, FloatWritable, WordFilenameWritable, FloatWritable> 
+{
+	public void reduce (WordFilenameWritable key, FloatWritable value, Context context)
+			throws IOException, InterruptedException {
+		
+		context.write(key, value);
+	}
+}
+
+  

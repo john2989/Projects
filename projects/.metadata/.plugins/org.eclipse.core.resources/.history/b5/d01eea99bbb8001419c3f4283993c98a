@@ -1,0 +1,36 @@
+package stubs;
+import java.io.IOException;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.MapWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Reducer;
+
+public class MaxReducer2 extends Reducer<Text, IntWritable, Text, IntWritable> {
+  IntWritable intWritable=new IntWritable(1);
+ 
+  Text text=new Text();
+
+  @Override
+  public void reduce(Text key, Iterable<IntWritable> values, Context context)
+      throws IOException, InterruptedException {
+	
+	int maxLength=0;
+	String maxWord="";
+    for (IntWritable value : values) {
+    	
+    	if(value.get()> maxLength){
+    	maxLength=value.get(); 	
+    	
+    	}
+    }
+	
+    intWritable.set(maxLength);
+    
+    maxWord=key.toString();
+    String s= maxWord.substring(0, 1)+"   "+maxWord;
+    
+    text.set(s);
+    context.write(text, intWritable);
+
+  }
+}

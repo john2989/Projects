@@ -1,0 +1,72 @@
+import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Mapper;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
+ 
+
+public class IPMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
+	final int NUM_FIELDS = 9;
+	String logEntryPattern = "^([\\d.]+) (\\S+) (\\S+) \\[([\\w:/]+\\s[+\\-]\\d{4})\\] \"(.+?)\" (\\d{3}) (\\d+) \"([^\"]+)\" \"([^\"]+)\"";
+	String ipAddress=null;
+	String timestamp=null;
+	DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MMM/yyyy:HH:mm:ss Z");
+
+	IntWritable second = new IntWritable();
+	IntWritable one = new IntWritable(1);
+	Text text=new Text();
+
+
+  /*
+   * The map method runs once for each line of text in the input file.
+   * The method receives a key of type LongWritable, a value of type
+   * Text, and a Context object.
+   */
+  @Override
+  public void map(LongWritable key, Text value, Context context)
+      throws IOException, InterruptedException {
+	try
+	{
+	
+	   /*
+       * Read line by line from log file
+       */
+    String line = value.toString();
+
+    Pattern p = Pattern.compile(logEntryPattern);
+    Matcher matcher = p.matcher(line);
+    if (!matcher.matches() || 
+      NUM_FIELDS != matcher.groupCount()) {
+      System.err.println("Bad log entry (or problem with RE?):");
+      System.err.println(line);
+      return;
+    }
+    ipAddress=matcher.group(1);
+    timestamp=matcher.group(4);
+    second.set(getSecondBucket(timestamp));
+    Text text=new Text();
+    text.set(ipAddress+" "+second.toString());
+    context.write(text, one);
+    
+    }
+    catch(Exception e)
+    {
+	  e.printStackTrace();
+    }
+    }
+      private int getSecondBucket(String timestamp) {
+      DateTime dt = formatter.parseDateTime(timestamp);
+      
+      return dt.getSecondOfDay() + (dt.getDayOfWeek() - 1)
+          * DateTimeConstants.SECONDS_PER_DAY;
+    }
+
+    }
+  

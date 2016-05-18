@@ -1,0 +1,77 @@
+import java.io.File;
+import java.io.IOException;
+
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.filecache.DistributedCache;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.mapreduce.Job;
+import org.joda.time.Chronology;
+import org.joda.time.DateMidnight;
+
+public class IPDriver {
+
+  public static void main(String[] args) throws Exception {
+
+    if (args.length != 2) {
+      System.out.printf(
+          "Usage: DDOS Detection <input dir> <output dir>\n");
+      System.exit(-1);
+    }
+    Configuration conf = new Configuration();
+    
+    // Add 3rd-party libraries
+    addJarToDistributedCache(Chronology.class, conf);
+    addJarToDistributedCache(DateMidnight.class, conf);
+
+    Job job = new Job(conf);
+    DistributedCache.addFileToClassPath(new Path("/user/training/jar/JTS.jar"), conf);
+    
+    job.setJarByClass(IPDriver.class);
+    job.setJobName("DDOS Detection");
+    job.setNumReduceTasks(20);
+
+    FileInputFormat.setInputPaths(job, new Path(args[0]));
+    FileOutputFormat.setOutputPath(job, new Path(args[1]));
+    //DistributedCache.addFileToClassPath(new Path("pathToJar"), conf);
+    
+    job.setOutputKeyClass(Text.class);
+    job.setOutputValueClass(IntWritable.class);
+ 
+    job.setMapperClass(IPMapper.class);
+    job.setReducerClass(IPReducer.class);
+    ; 
+
+    
+    boolean success = job.waitForCompletion(true);
+    System.exit(success ? 0 : 1);
+  }
+  private static void addJarToDistributedCache(
+	        Class classToAdd, Configuration conf)
+	    throws IOException {
+	 
+	    // Retrieve jar file for class2Add
+	    String jar = classToAdd.getProtectionDomain().
+	            getCodeSource().getLocation().
+	            getPath();
+	    File jarFile = new File(jar);
+	 
+	    // Declare new HDFS location
+	    Path hdfsJar = new Path("/user/training/jar"
+	            + jarFile.getName());
+	 
+	    // Mount HDFS
+	    FileSystem hdfs = FileSystem.get(conf);
+	 
+	    // Copy (override) jar file to HDFS
+	    hdfs.copyFromLocalFile(false, true,
+	        new Path(jar), hdfsJar);
+	 
+	    // Add jar to distributed classPath
+	    DistributedCache.addFileToClassPath(hdfsJar, conf);
+	}
+}

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy 3 elements to &apos;tfdif/src/edu.stthomas.gps.tfidf&apos;&#x0A;- Original project: &apos;twitterdataanalysis&apos;&#x0A;- Destination element: &apos;tfdif/src/edu.stthomas.gps.tfidf&apos;&#x0A;- Original elements:&#x0A;     stubs.TwitterWordMapper2.java&#x0A;     stubs.TwitterWordCount2.java&#x0A;     stubs.TwitterReducer2.java" description="Copy compilation units" destination="=tfdif/src&lt;edu.stthomas.gps.tfidf" element1="/src&lt;stubs{TwitterWordMapper2.java" element2="/src&lt;stubs{TwitterWordCount2.java" element3="/src&lt;stubs{TwitterReducer2.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1429547019413" units="3" version="1.0"/>
+</session>

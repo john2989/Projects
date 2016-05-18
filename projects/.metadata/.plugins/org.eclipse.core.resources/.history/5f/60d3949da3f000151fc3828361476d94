@@ -1,0 +1,11 @@
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.util.ToolRunner;
+
+
+public class MyClass {
+	public static void main(final String[] args) throws Exception {
+		  Configuration conf = new Configuration();
+		  int res = ToolRunner.run(conf, new MyClass(), args);
+		  System.exit(res);
+		}
+}

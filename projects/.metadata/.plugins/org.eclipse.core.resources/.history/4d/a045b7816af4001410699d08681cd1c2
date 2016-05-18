@@ -1,0 +1,35 @@
+package stubs;
+import java.io.IOException;
+import org.apache.hadoop.io.DoubleWritable;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Reducer;
+
+public class BayesianRatingReducerAge extends Reducer<IntWritable, Text, IntWritable, Text> {
+  DoubleWritable doubleWritable=new DoubleWritable();
+  Text text=new Text();
+  @Override
+	public void reduce(IntWritable key, Iterable<Text> values, Context context)
+			throws IOException, InterruptedException {
+	  
+	for(Text value:values)
+	{
+    double bayesianRating= 0;
+	String data[]= value.toString().split("\\t");
+    double votes=Double.parseDouble(data[2]);
+    double movieAvg=Double.parseDouble(data[1]);
+    if(data[4].equals("part-r-00000"))
+    bayesianRating=((votes*movieAvg)+(270*3.24))/(votes+270);
+    else if(data[4].equals("part-r-00001"))
+    else if(data[4].equals("part-r-00002"))
+    else if(data[4].equals("part-r-00003"))
+    else if(data[4].equals("part-r-00004"))
+    else if(data[4].equals("part-r-00005"))
+    else
+    doubleWritable.set(bayesianRating); 
+    text.set(data[0].toString()+"\t"+data[1]+"\t"+data[2]+"\t"+data[3]+"\t"+doubleWritable.toString());
+    context.write(key, text);
+	}
+
+  }
+}
